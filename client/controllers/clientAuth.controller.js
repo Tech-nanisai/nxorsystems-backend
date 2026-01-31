@@ -173,7 +173,9 @@ exports.loginClient = async (req, res) => {
       user: {
         fullName: client.fullName,
         email: client.email,
-        clientID: client.clientID
+        clientID: client.clientID,
+        phone: client.phone,
+        profilePicture: client.profilePicture
       }
     });
   } catch (err) {

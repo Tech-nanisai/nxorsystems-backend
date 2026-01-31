@@ -1,3 +1,4 @@
+//backend/client/routes/ClientRegister.routes.js
 const express = require("express");
 const router = express.Router();
 const ctrl = require("../controllers/clientAuth.controller");
@@ -11,6 +12,6 @@ router.post("/reset-password", ctrl.resetPassword);
 router.put("/update-profile", verifyToken, ctrl.updateProfile);
 router.put("/change-password", verifyToken, ctrl.changePassword);
 // Add this route for Context to fetch user data
-router.get("/me", verifyToken, ctrl.getMe); 
+router.get("/me", verifyToken, ctrl.getMe);
 
 module.exports = router;

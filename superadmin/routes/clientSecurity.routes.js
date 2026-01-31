@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const controller = require("../controllers/ClientSecurity.controller");
+const controller = require("../controllers/clientSecurity.controller");
 
 // Middleware to ensure SuperAdmin (assuming this exists relative to this file)
 // If not, we might need to import it. Usually passed from server.js? 

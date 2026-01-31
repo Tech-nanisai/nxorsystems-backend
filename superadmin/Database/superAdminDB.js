@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
 // Create a separate connection for the 'superadmin' database
-// Ensure your .env has SPER_ADMIN_MONGO_URI defined
-const superAdminDB = mongoose.createConnection(process.env.SPER_ADMIN_MONGO_URI);
+// Ensure your .env has SUPER_ADMIN_MONGO_URI defined
+const superAdminDB = mongoose.createConnection(process.env.SUPER_ADMIN_MONGO_URI);
 
 superAdminDB.on("connected", () => {
     console.log("✅ SuperAdmin DB connected successfully");

@@ -2,13 +2,21 @@ const jwt = require("jsonwebtoken");
 const Client = require("../../client/models/ClientnAuth.models");
 
 module.exports = async function verifyToken(req, res, next) {
+  let token;
   const auth = req.headers.authorization;
-  if (!auth || !auth.startsWith("Bearer ")) {
+
+  if (auth && auth.startsWith("Bearer ")) {
+    token = auth.split(" ")[1];
+  } else if (req.query.token) {
+    // Check for token in query params (for file downloads)
+    token = req.query.token;
+  }
+
+  if (!token) {
     return res.status(401).json({ message: "No token provided" });
   }
 
   try {
-    const token = auth.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded;
 

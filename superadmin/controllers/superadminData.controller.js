@@ -315,3 +315,43 @@ exports.deleteInvoice = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+/* ===============================
+   GET ALL CLIENTS (Super Admin)
+================================ */
+exports.getAllClients = async (req, res) => {
+  try {
+    const clients = await Client.find().select("-passwordHash").sort({ createdAt: -1 });
+    res.json({ success: true, data: clients });
+  } catch (err) {
+    console.error("Get All Clients Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+/* ===============================
+   GET DASHBOARD STATS (Super Admin)
+================================ */
+exports.getDashboardStats = async (req, res) => {
+  try {
+    const totalClients = await Client.countDocuments();
+    const activeProjects = await Project.countDocuments({ status: { $ne: "Completed" } });
+
+    // Invoices count (New + Old) - Approximation for speed
+    const newInvoicesCount = await Invoice.countDocuments();
+    const oldPaymentsCount = await Payment.countDocuments();
+    const totalInvoices = newInvoicesCount + oldPaymentsCount;
+
+    res.json({
+      success: true,
+      data: {
+        totalClients,
+        activeProjects,
+        totalInvoices
+      }
+    });
+  } catch (err) {
+    console.error("Get Dashboard Stats Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

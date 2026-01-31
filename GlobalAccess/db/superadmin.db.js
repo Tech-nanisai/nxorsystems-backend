@@ -1,14 +1,14 @@
 // backend/GlobalAccess/db/superadmin.db.js
 const mongoose = require("mongoose");
 
-if (!process.env.SPER_ADMIN_MONGO_URI) {
+if (!process.env.SUPER_ADMIN_MONGO_URI) {
   throw new Error(
-    "❌ SPER_ADMIN_MONGO_URI is missing in environment variables"
+    "❌ SUPER_ADMIN_MONGO_URI is missing in environment variables"
   );
 }
 
 const superAdminDB = mongoose.createConnection(
-  process.env.SPER_ADMIN_MONGO_URI,
+  process.env.SUPER_ADMIN_MONGO_URI,
   {
     serverSelectionTimeoutMS: 10000,
   }

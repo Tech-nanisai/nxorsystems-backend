@@ -23,6 +23,7 @@
     "jsonwebtoken": "^9.0.2",
     "moment-timezone": "^0.5.47",
     "mongoose": "^8.9.7",
+    "multer": "^2.0.2",
     "nodemailer": "^6.10.0"
   }
 }
