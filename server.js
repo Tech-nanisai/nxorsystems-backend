@@ -7,7 +7,7 @@ const superAdminAuthRoutes = require("./superadmin/routes/SuperAdminauth.routes"
 const globalIDRoutes = require("./GlobalAccess/routes/idGeneration.routes");
 const clientRegister = require("./client/routes/ClientRegister.routes");
 const clientDashboardRoutes = require("./client/routes/ClientDashboard.routes");
-const superadminDataRoutes = require("./superadmin/routes/SuperAdminData.routes");
+const superadminDataRoutes = require("./superadmin/routes/superadminData.routes");
 
 
 const cors = require("cors");
