@@ -1,6 +1,9 @@
 const mongoose = require("mongoose");
 
 // Create a separate connection for the 'client' database
+if (!process.env.CLIENT_MONGO_URI) {
+  throw new Error("CLIENT_MONGO_URI is missing in environment variables");
+}
 const clientDB = mongoose.createConnection(process.env.CLIENT_MONGO_URI);
 
 clientDB.on("connected", () => {
