@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 if (!process.env.SUPER_ADMIN_MONGO_URI) {
     throw new Error("SUPER_ADMIN_MONGO_URI is missing in environment variables");
 }
-const superAdminDB = mongoose.createConnection(process.env.SUPER_ADMIN_MONGO_URI);
+const superAdminDB = mongoose.createConnection(process.env.SUPER_ADMIN_MONGO_URI, { dbName: 'nxor_main_portal' });
 
 superAdminDB.on("connected", () => {
     console.log("✅ SuperAdmin DB connected successfully");

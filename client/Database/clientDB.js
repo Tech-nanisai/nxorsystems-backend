@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 if (!process.env.CLIENT_MONGO_URI) {
   throw new Error("CLIENT_MONGO_URI is missing in environment variables");
 }
-const clientDB = mongoose.createConnection(process.env.CLIENT_MONGO_URI);
+const clientDB = mongoose.createConnection(process.env.CLIENT_MONGO_URI, { dbName: 'nxor_main_portal' });
 
 clientDB.on("connected", () => {
   console.log("✅ Client DB connected successfully");

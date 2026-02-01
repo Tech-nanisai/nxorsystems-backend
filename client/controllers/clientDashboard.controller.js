@@ -151,3 +151,86 @@ exports.updateProjectApproval = async (req, res) => {
     res.status(500).json({ message: "Server Error" });
   }
 };
+
+/* ===============================
+   TASK MANAGEMENT API
+================================ */
+
+// GET TASKS
+exports.getTasks = async (req, res) => {
+  try {
+    const client = await Client.findById(req.user.id);
+    if (!client) return res.status(404).json({ message: "Client not found" });
+
+    // Fetch tasks
+    const tasks = await Task.find({ clientID: client.clientID }).sort({ createdAt: -1 });
+    res.json({ success: true, data: tasks });
+  } catch (err) {
+    console.error("Get Tasks Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// CREATE TASK (Personal)
+exports.createTask = async (req, res) => {
+  try {
+    const { title, description, priority, dueDate } = req.body;
+    const client = await Client.findById(req.user.id);
+    if (!client) return res.status(404).json({ message: "Client not found" });
+
+    const newTask = new Task({
+      clientID: client.clientID,
+      title,
+      description,
+      priority,
+      dueDate,
+      isPersonal: true, // Created by Client
+      status: "Pending"
+    });
+
+    await newTask.save();
+    res.json({ success: true, data: newTask, message: "Task created successfully" });
+  } catch (err) {
+    console.error("Create Task Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// UPDATE TASK (Status or Edit)
+exports.updateTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updates = req.body; // Expecting { status, isCompleted, title, etc. }
+
+    // Sync isCompleted with status
+    if (updates.status === 'Completed') updates.isCompleted = true;
+    if (updates.status && updates.status !== 'Completed') updates.isCompleted = false;
+
+    // If isCompleted passed directly
+    if (updates.isCompleted !== undefined) {
+      updates.status = updates.isCompleted ? 'Completed' : 'Pending';
+    }
+
+    const task = await Task.findByIdAndUpdate(id, updates, { new: true });
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    res.json({ success: true, data: task, message: "Task updated" });
+  } catch (err) {
+    console.error("Update Task Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// DELETE TASK
+exports.deleteTask = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const task = await Task.findByIdAndDelete(id);
+    if (!task) return res.status(404).json({ message: "Task not found" });
+
+    res.json({ success: true, message: "Task deleted" });
+  } catch (err) {
+    console.error("Delete Task Error:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+};

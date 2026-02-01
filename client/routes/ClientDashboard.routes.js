@@ -10,4 +10,10 @@ router.get("/invoice/:id", verifyToken, controller.getInvoiceDetails);
 router.get("/my-projects", verifyToken, controller.getMyProjects);
 router.post("/project-approval", verifyToken, controller.updateProjectApproval);
 
+// Task Routes
+router.get("/tasks", verifyToken, controller.getTasks);
+router.post("/tasks", verifyToken, controller.createTask);
+router.patch("/tasks/:id", verifyToken, controller.updateTask);
+router.delete("/tasks/:id", verifyToken, controller.deleteTask);
+
 module.exports = router;
