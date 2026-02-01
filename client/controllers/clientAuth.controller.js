@@ -215,12 +215,12 @@ exports.forgotPassword = async (req, res) => {
     await client.save();
 
     // Send Email with the RAW token
-    const emailSent = await sendForgotPasswordEmail(client.email, resetToken, client.fullName);
+    const result = await sendForgotPasswordEmail(client.email, resetToken, client.fullName);
 
-    if (emailSent) {
+    if (result.success) {
       res.json({ success: true, message: "Reset link sent to your email." });
     } else {
-      res.status(500).json({ success: false, message: "Failed to send email. Please try again later." });
+      res.status(500).json({ success: false, message: "Email Error: " + result.error });
     }
 
   } catch (err) {

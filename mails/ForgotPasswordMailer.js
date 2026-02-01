@@ -58,11 +58,11 @@ const sendForgotPasswordEmail = async (email, resetToken, fullName) => {
 
         const info = await transporter.sendMail(mailOptions);
         console.log("Forgot Password Email sent: " + info.response);
-        return true;
+        return { success: true };
 
     } catch (error) {
         console.error("Error sending forgot password email:", error);
-        return false;
+        return { success: false, error: error.message };
     }
 };
 
