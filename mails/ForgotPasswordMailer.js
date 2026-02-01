@@ -18,8 +18,8 @@ const sendForgotPasswordEmail = async (email, resetToken, fullName) => {
         console.log(`Attempting email via Brevo. User: ${process.env.MAIL_USER}`);
 
         const transporter = nodemailer.createTransport({
-            host: "smtp-relay.brevo.com",
-            port: 587,
+            host: process.env.MAIL_HOST || "smtp-relay.brevo.com",
+            port: process.env.MAIL_PORT || 587,
             secure: false, // Must be false for 587
             auth: {
                 user: process.env.MAIL_USER,
@@ -31,7 +31,7 @@ const sendForgotPasswordEmail = async (email, resetToken, fullName) => {
             }
         });
 
-        const resetLink = `http://localhost:5173/client/reset-password/${resetToken}`;
+        const resetLink = `${process.env.FRONTEND_URL || "https://nxorsystems.com"}/client/reset-password/${resetToken}`;
 
         const mailOptions = {
             from: `"NXOR Systems" <${process.env.MAIL_FROM || process.env.MAIL_USER}>`,
